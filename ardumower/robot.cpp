@@ -2723,15 +2723,15 @@ void Robot::setNextState(byte stateNew, byte dir) {
       if (rollDir == RIGHT) {
         motorLeftSpeedRpmSet = motorSpeedMaxRpm / 2;
         motorRightSpeedRpmSet = motorSpeedMaxRpm ;
-        stateEndOdometryRight = odometryRight + (odometryTicksPerCm * odometryWheelBaseCm * 2) ;
-        stateEndOdometryLeft = odometryLeft + (odometryTicksPerCm * odometryWheelBaseCm * 1.5 ) ;
+        stateEndOdometryRight = odometryRight + (odometryTicksPerCm * odometryWheelBaseCm * 2 * 1.5) ; // MBK multiply by an additional 1.5
+        stateEndOdometryLeft = odometryLeft + (odometryTicksPerCm * odometryWheelBaseCm * 1.5 * 1.5) ;
       }
       else
       {
         motorLeftSpeedRpmSet = motorSpeedMaxRpm ;
         motorRightSpeedRpmSet = motorSpeedMaxRpm / 2 ;
-        stateEndOdometryRight = odometryRight + (odometryTicksPerCm * odometryWheelBaseCm * 1.5 ) ;
-        stateEndOdometryLeft = odometryLeft + (odometryTicksPerCm * odometryWheelBaseCm * 2) ;
+        stateEndOdometryRight = odometryRight + (odometryTicksPerCm * odometryWheelBaseCm * 1.5 * 1.5) ;
+        stateEndOdometryLeft = odometryLeft + (odometryTicksPerCm * odometryWheelBaseCm * 2 * 1.5) ;
       }
 
 
