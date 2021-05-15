@@ -207,7 +207,7 @@ Mower::Mower() {
   batSwitchOffIfIdle = 300;      // switch off battery if idle (minutes)
   batFactor       = 10.88;     //depend of the resistor divisor on board R12 and R13
   batChgFactor    = 10.89;     //depend of the resistor divisor on board R9 and R10
-  batFull          = 29.4;     // battery reference Voltage (fully charged) PLEASE ADJUST IF USING A DIFFERENT BATTERY VOLTAGE! FOR a 12V SYSTEM TO 14.4V
+  batFull          = 25.0;     // battery reference Voltage (fully charged) PLEASE ADJUST IF USING A DIFFERENT BATTERY VOLTAGE! FOR a 12V SYSTEM TO 14.4V
   batChargingCurrentMax = 2; // maximum current your charger can devliver
   batFullCurrent  = 0.1;      // current flowing when battery is fully charged
   startChargingIfBelow = 25.0; // start charging if battery Voltage is below
