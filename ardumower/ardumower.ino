@@ -1,16 +1,24 @@
 /*      
  *      DUE and ODOMETRY MANDATORY VERSION 
  *      PCB1.3 
- *      OPTIONAL IMU GY-88  
+ *      COMPATIBLE WITH THIS IMU 
+ *      GY-88 CONNECTED ON I2C2 IMU
+ *      GY-521 with compass deactivate CONNECTED ON I2C2 IMU
+ *      GY-521 CONNECTED ON I2C2 IMU + GY-273 CONNECTED ON I2C3 DISPLAY with compass activate
+ *      SO IT'S MPU6050 and HMC5883L or QMC5883L
  *      
  *      Connect DUE programming port to PC for programming and PC console
  *      Connect DUE Native USB port to Raspberry Pi 
  *      
  *      During all test and dev set Enable_DueWatchdog to false
- *      or increase the delay in robot.cpp line : watchdogEnable(2000);// Watchdog trigger after  2 sec if not reseted.
+ *      or increase the delay in robot.cpp line : watchdogEnable(3000);// Watchdog trigger after  3 sec if not reseted.
  *      
- *      --------------------------------- GPS ----------------------------------------------------
- *      GPS You need to change speed into pfod setting according to your module and connected to P44
+ *      --------------------------BT or ESP8266 --------------------------------------------------
+ *      Into mower.cpp line 255 select correct configuration
+ *       bluetoothUse      = 1;      // use Bluetooth module? It's Impossible to use Bluetooth and esp8266 at same time
+ *       esp8266Use        = 0;       // use ESP8266 Wifi module?
+ *      
+ *      
  *     
  *      ------------------------------ RASPBERRY -------------------------------------------------
  *      If Raspberry PI is not connected you need to change into mower.h

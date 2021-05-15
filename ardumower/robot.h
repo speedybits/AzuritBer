@@ -51,7 +51,7 @@
 */
 
 // code version
-#define VER "1.38-Azuritber"
+#define VER "1.55-Azuritber GY-88/GY-521"
 
 
 // sensors
@@ -241,6 +241,7 @@ class Robot
     unsigned long nextTimeTimer ;
     byte ActualRunningTimer;
     // ----- bluetooth -------------------------------------
+    boolean freeboolean;        //use to keep the eeprom integrity
     boolean bluetoothUse;       // use Bluetooth module?
     // ----- esp8266 ---------------------------------------
     boolean esp8266Use;         // use ESP8266 Wifi module?
@@ -288,6 +289,7 @@ class Robot
     int lastStartOdometryRight;
     int lastStartOdometryLeft;  // use to calculate the accel
     int stateStartOdometryRight;
+    int PeriOdoIslandDiff; //use to check if island while tracking
     float straightLineTheta; //angle read by odometry during the last lane to verify the IMU drift
     int DistPeriOutRev; // Distance in CM when reach perimeter
     int DistPeriObstacleRev; // Distance in CM when prei rev obstacle
@@ -375,6 +377,8 @@ class Robot
     int motorRightOffsetFwd;
     int motorRightOffsetRev;
     int motorTickPerSecond;
+    //bber400
+    float motorRpmCoeff; // coeff use to have a stable RPM on slope or when battery is full or empty
 
     unsigned long nextTimeMotorOdoControl ;
     unsigned long nextTimePidCompute;
@@ -388,6 +392,7 @@ class Robot
     byte timeToAddMowMedian;
     unsigned long lastSetMotorMowSpeedTime;
     unsigned long nextTimeCheckCurrent;
+    unsigned long nextTimeCheckperimeterSpeedCoeff;
     unsigned long lastTimeMotorMowStuck;
     int leftSpeed;
     int rightSpeed;
@@ -408,6 +413,7 @@ class Robot
     boolean UseAccelLeft;
     boolean UseBrakeLeft;
     boolean odoLeftRightCorrection;
+    boolean autoAdjustSlopeSpeed;
     int AngleRotate;
     int newtagRotAngle1;
     int newtagRotAngle2;
@@ -504,6 +510,8 @@ class Robot
     RunningMedian compassYawMedian = RunningMedian(60);
     RunningMedian accelGyroYawMedian = RunningMedian(60);
     RunningMedian motorMowPowerMedian = RunningMedian(30);
+    RunningMedian motorSpeedRpmMedian = RunningMedian(35);
+    
     
     //bb 5
 
@@ -569,6 +577,7 @@ class Robot
     int rightSpeedperi;
     int lastLeftSpeedperi;
     int lastRightSpeedperi;
+    float perimeterSpeedCoeff; // coeff to reduce speed when near perimeter wire
     int uu;
     int vv;
     unsigned long lastTimeForgetWire;
@@ -590,7 +599,7 @@ class Robot
     float R;
     int smoothPeriMag;
     unsigned long nextTimeReadSmoothPeriMag ; //use when wait for sig2
-
+    boolean reduceSpeedNearPerimeter; //Activate the speed reduction near perimeter
     //End add bb
     //  --------- lawn state ----------------------------
     boolean lawnSensorUse     ;       // use capacitive Sensor
@@ -610,6 +619,8 @@ class Robot
     // --------- sonar ----------------------------------
     // ultra sonic sensor distance-to-obstacle (cm)
     boolean sonarUse          ;      // use ultra sonic sensor?
+    boolean sonarLikeBumper   ;      // sonar behaviour is the same as bumper
+  
     boolean sonarLeftUse;
     boolean sonarRightUse;
     boolean sonarCenterUse;
@@ -625,8 +636,7 @@ class Robot
     unsigned long nextTimeCheckSonar ;
     byte distToObstacle; //min distance to obstacle in CM of the 3 sonars
     byte sonarToFrontDist;
-    //boolean sonarReduceSpeed ; // if true the mower reduce speed
-
+    float sonarSpeedCoeff; // coeff to reduce speed when sonar detect something
 
     // --------- pfodApp ----------------------------------
     RemoteControl rc; // pfodApp
@@ -815,6 +825,7 @@ class Robot
     virtual void checkDrop();                                                                                                             // Dropsensor - Absturzsensor
     virtual void checkBumpersPerimeter();
     virtual void checkPerimeterBoundary();
+    virtual void checkStuckOnIsland();
 
     virtual void checkLawn();
     virtual void checkSonar();
@@ -857,19 +868,12 @@ class Robot
     // virtual void receiveGPSTime();
     virtual void calcOdometry();
     virtual void menu();
-    virtual void commsMenuBT();
-    virtual void commsMenuWifi();
-    virtual void commsMenuSelect();
     virtual void configureBluetooth(boolean quick) {};
 
 
     virtual void beeper();
 
 
-    // Console helpers
-    virtual void purgeConsole();
-    virtual char waitCharConsole();
-    virtual String waitStringConsole();
     
 
 };
