@@ -879,9 +879,9 @@ void RemoteControl::sendBatteryMenu(boolean update) {
   sendYesNo(robot->batMonitor);
   //bb add
   if (robot->developerActive) {
-    sendSlider("j09", F("Charge Factor"), robot->batChgFactor, "", 0.01, 9, 12);
-    sendSlider("j05", F("Battery Factor "), robot->batFactor, "", 0.01, 9, 12);
-    sendSlider("j08", F("Sense factor"), robot->batSenseFactor, "", 0.01, 12);
+    sendSlider("j09", F("Charge Factor"), robot->batChgFactor, "", 0.01, 12, 9);
+    sendSlider("j05", F("Battery Factor "), robot->batFactor, "", 0.01, 12, 9);
+    sendSlider("j08", F("Sense factor"), robot->batSenseFactor, "", 0.01, 12, 9);
   }
   //end add
   //Console.print("batFactor=");
@@ -953,7 +953,7 @@ void RemoteControl::sendOdometryMenu(boolean update) {
   serialPort->print(robot->odometryLeft);
   serialPort->print(", ");
   serialPort->println(robot->odometryRight);
-  sendSlider("l04", F("Ticks per one full revolution"), robot->odometryTicksPerRevolution, "", 1, 2300, 500);
+  sendSlider("l04", F("Ticks per one full revolution"), robot->odometryTicksPerRevolution, "", 1, 2800, 500);
   sendSlider("l01", F("Ticks per cm"), robot->odometryTicksPerCm, "", 0.1, 60, 10);
   sendSlider("l02", F("Wheel base cm"), robot->odometryWheelBaseCm, "", 0.1, 50, 5);
   serialPort->println("}");
